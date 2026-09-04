@@ -1,0 +1,20 @@
+{
+  "name": "dle-game-builder",
+  "interface": {
+    "displayName": "DLE Game Builder"
+  },
+  "plugins": [
+    {
+      "name": "dle-game-builder",
+      "source": {
+        "source": "local",
+        "path": "./plugins/dle-game-builder"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

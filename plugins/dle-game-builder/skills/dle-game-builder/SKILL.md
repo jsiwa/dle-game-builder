@@ -1,8 +1,7 @@
 ---
 name: dle-game-builder
-description: Designs, builds, redesigns, and audits mobile-first daily browser puzzle games ("-dle" games), including Wordle-like guessing, clue ladders, progressive image/audio reveals, ordering, connections, grids, maps, drawing, estimation, and higher-or-lower formats. Use when the user asks for a DLE game, daily game, browser puzzle, playable prototype, 每日小游戏, 猜词游戏, 排序游戏, responsive game UI, streak/share/archive systems, puzzle data pipelines, or a Cloudflare-ready launch.
+description: Design, build, redesign, or audit mobile-first daily browser puzzle games ("-dle" games). Use for Wordle-like guessing, clue ladders, progressive media reveals, ordering, connections, grids, maps, drawing, estimation, or higher/lower games, including daily reset, streak, archive, sharing, and puzzle-content systems. Also use for 每日小游戏、猜词游戏、排序游戏. Do not use for generic responsive UI, unrelated games, or standalone Cloudflare work.
 license: MIT
-compatibility: Works with coding agents that can inspect and edit a web repository. Follow the existing stack; for a new project default to Astro plus React or Preact, TypeScript, and Cloudflare Workers Static Assets.
 metadata:
   version: "1.0.0"
   category: "browser-games"
@@ -13,7 +12,18 @@ metadata:
 
 Build a polished daily browser game, not a generic dashboard and not a visual clone of another game. The finished product should feel immediately understandable on a phone, remain intentionally compact on desktop, restore progress reliably, and create a repeatable daily ritual.
 
-## Non-negotiable product model
+## Respect the requested scope
+
+- Explicit user choices about scope, framework, deployment platform, visual direction, data source, and deliverables override this skill's defaults.
+- For an audit or explanation, inspect and report only. Do not edit files unless the user asks for fixes.
+- For a focused change or prototype, complete and verify the requested slice without silently expanding it into a production launch.
+- For a new build or substantial redesign, use the game brief as a working checklist and implement the requested experience.
+- Apply the full launch checklist only when the user asks for production readiness, launch preparation, or an end-to-end release.
+- Do not deploy, publish, buy assets, create external accounts, or enable analytics, ads, authentication, or paid services without explicit user authorization.
+
+## Production daily-game defaults
+
+For a production daily mode, use these defaults unless the user chooses otherwise:
 
 1. Give every player the same primary puzzle for the configured game day.
 2. Make the core loop understandable within 10 seconds and usually finishable in 1–5 minutes.
@@ -23,18 +33,25 @@ Build a polished daily browser game, not a generic dashboard and not a visual cl
 6. Use original branding, copy, puzzle data, illustrations, and interaction details. Reuse patterns, not trade dress or proprietary assets.
 7. Do not require an account before the first play. Add accounts only when cross-device sync or social features justify them.
 
-## Start every task this way
+## Route the task
 
 1. Inspect the repository, package manager, framework, routes, styling system, tests, deployment config, and existing design tokens.
-2. Identify the primary mechanic from [mechanic-archetypes.md](references/mechanic-archetypes.md). Start with one primary mechanic and at most one secondary mode.
-3. Fill the smallest useful version of [game-brief.template.md](assets/game-brief.template.md). Infer sensible defaults instead of asking a long questionnaire. Ask only for blockers such as an unavailable dataset, unclear IP rights, or a required external API credential.
-4. Read [interface-patterns.md](references/interface-patterns.md) before creating or changing layout.
-5. Read the other reference files only when their trigger applies:
+2. Classify the request as an audit, focused change/prototype, new build/redesign, or production launch.
+3. Identify the primary mechanic from [mechanic-archetypes.md](references/mechanic-archetypes.md). Start with one primary mechanic and at most one secondary mode.
+4. For a new build or substantial redesign, use the smallest useful portion of [game-brief.template.md](assets/game-brief.template.md). Treat it as an internal checklist unless a committed brief would help the project or the user requests one. Infer sensible defaults and ask only about genuine blockers.
+5. Read [interface-patterns.md](references/interface-patterns.md) before creating, changing, or auditing layout.
+6. Read the other reference files only when their trigger applies:
    - Daily reset, persistence, streaks, archives, or deterministic selection: [daily-state-engine.md](references/daily-state-engine.md)
    - Puzzle authoring, normalization, aliases, difficulty, or media sourcing: [content-pipeline.md](references/content-pipeline.md)
    - Responsive, accessibility, browser, iframe, canvas, drag, or keyboard testing: [qa-accessibility.md](references/qa-accessibility.md)
    - Metadata, indexable content, analytics, ads, launch assets, or Cloudflare deployment: [seo-launch.md](references/seo-launch.md)
-6. When the user asks to build, implement and verify. Do not stop after producing a plan or mockup.
+7. When the user asks to build or change code, implement and verify the requested scope. Do not stop after producing only a plan or mockup.
+
+## Bundled resources and runtime
+
+Resolve the skill directory from the loaded `SKILL.md` path before using bundled files. Do not assume the user's project root is the skill directory, and do not run a bare `node scripts/...` command from the project.
+
+The bundled helper scripts require Node.js 18 or later and have no package dependencies. Invoke them with an absolute path to this skill directory. If Node.js is unavailable, use the repository's existing tooling or implement an equivalent check without changing the user's stack solely for this skill.
 
 ## The single-surface layout contract
 
@@ -85,14 +102,14 @@ Every state-changing action must specify:
 - score/life/attempt effects;
 - feedback shown to the player;
 - persistence behavior;
-- analytics event, excluding the secret answer;
+- analytics event when analytics is in scope, excluding the secret answer;
 - keyboard and touch behavior.
 
 Do not let UI components invent rules independently.
 
 ## Default project architecture
 
-The existing repository always wins. For a new project use these defaults unless the mechanic needs something else:
+The user's explicit choices and the existing repository always win. For a new project with no requested stack, use these defaults unless the mechanic needs something else:
 
 - Astro for the indexable page shell and content routes.
 - React or Preact island for the interactive game.
@@ -127,7 +144,7 @@ Use immutable `id`, `date`, and `kind` fields. Keep presentation copy separate f
 Use [puzzle.schema.json](assets/puzzle.schema.json) as the baseline and run:
 
 ```bash
-node scripts/validate-puzzles.mjs path/to/puzzles.json
+node "<skill-directory>/scripts/validate-puzzles.mjs" path/to/puzzles.json
 ```
 
 Adapt the schema when the mechanic needs richer data, but preserve the common identity, schedule, accessibility, and source fields.
@@ -143,7 +160,7 @@ Adapt the schema when the mechanic needs richer data, but preserve the common id
 - Show a next-puzzle countdown only after the reset contract is stable.
 - Never expose tomorrow's puzzle through HTML, preload tags, public API responses, source maps, or analytics payloads unless spoilers are intentionally acceptable.
 
-Use `node scripts/daily-key.mjs <IANA_TIME_ZONE> [ISO_INSTANT]` to verify edge cases.
+Use `node "<skill-directory>/scripts/daily-key.mjs" <IANA_TIME_ZONE> [ISO_INSTANT]` to verify edge cases.
 
 ## Completion and sharing
 
@@ -174,7 +191,7 @@ Use symbols plus text or position; never rely on color alone. Do not include the
 
 ## Verification workflow
 
-Before declaring the task complete:
+Choose checks in proportion to the requested scope. Before declaring an implementation complete, run every relevant available check below and report checks that could not be run:
 
 1. Run typecheck, lint, unit tests, and production build using repository commands.
 2. Test the core pure functions, especially normalization, evaluation, scoring, date keys, streaks, and puzzle selection.
@@ -189,9 +206,9 @@ Before declaring the task complete:
 
 Adapt [responsive.spec.ts](assets/responsive.spec.ts) when Playwright is available.
 
-## Definition of done
+## Production launch definition of done
 
-A DLE game is done only when it includes:
+For an explicit production launch or launch-readiness request, the game is ready only when it includes:
 
 - a complete playable loop with win and loss states;
 - mobile-first single-surface layout and intentional desktop behavior;
@@ -205,4 +222,4 @@ A DLE game is done only when it includes:
 - a content pipeline with enough validated puzzles for launch;
 - a launch pack: 1:1 logo, 16:9 OG image, gameplay screenshot, directory metadata, and concise game description.
 
-Report the implemented files, tests run, reset timezone, content coverage, and any genuine remaining blocker. Do not claim verification that was not performed.
+Report the implemented files, tests run, reset timezone when relevant, content coverage when relevant, and any genuine remaining blocker. Do not claim verification that was not performed.

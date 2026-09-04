@@ -1,0 +1,5 @@
+interface:
+  display_name: "DLE Game Builder"
+  short_description: "Build and audit polished daily browser puzzle games"
+  brand_color: "#7C83FF"
+  default_prompt: "Use $dle-game-builder to build or audit a mobile-first daily browser puzzle game."

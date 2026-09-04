@@ -1,0 +1,26 @@
+{
+  "name": "dle-game-builder",
+  "owner": {
+    "name": "Jsiwa",
+    "url": "https://github.com/jsiwa"
+  },
+  "description": "Tools for building and auditing daily browser puzzle games.",
+  "plugins": [
+    {
+      "name": "dle-game-builder",
+      "source": "./plugins/dle-game-builder",
+      "description": "Build and audit polished mobile-first daily browser puzzle games.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Jsiwa",
+        "url": "https://github.com/jsiwa"
+      },
+      "category": "development",
+      "tags": [
+        "daily-game",
+        "browser-game",
+        "puzzle"
+      ]
+    }
+  ]
+}

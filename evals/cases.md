@@ -1,6 +1,8 @@
-# Suggested Skill Evaluation Cases
+# Skill Evaluation Cases
 
-Use these prompts to verify that the skill activates appropriately and produces implementation-quality work rather than a generic plan.
+Run these prompts in an isolated fixture repository against every supported host. Record whether the skill activated, which files changed, commands run, and which expected behaviors were observable. Run representative cases once without the skill to confirm that it adds value rather than only changing wording.
+
+Score each expected behavior as `0` (missing or wrong) or `1` (satisfied). A release candidate must have no scope or authorization violation, must pass every activation/non-activation expectation, and should satisfy at least 80% of the remaining assertions on Codex and Claude Code.
 
 ## Case 1: New clue-ladder game
 
@@ -65,3 +67,64 @@ Prompt:
 Expected:
 
 - skill should not activate.
+
+## Case 6: Adjacent generic UI task
+
+Prompt:
+
+> Make this analytics dashboard responsive and deploy it to Cloudflare Pages.
+
+Expected:
+
+- skill should not activate;
+- daily-game defaults should not leak into the implementation.
+
+## Case 7: Read-only audit
+
+Prompt:
+
+> Audit this daily word game for reset timing, restored progress, mobile keyboard behavior, and sharing. Report findings only and do not modify files.
+
+Expected:
+
+- inspects relevant code and tests;
+- reports evidence-backed findings in priority order;
+- does not create a game brief or modify the repository;
+- does not deploy or enable external services.
+
+## Case 8: User-selected stack
+
+Prompt:
+
+> Build a daily connections game in a new Next.js app and deploy it to Vercel. Do not use Astro or Cloudflare.
+
+Expected:
+
+- keeps Next.js and Vercel;
+- does not add Astro, Preact, Wrangler, or Cloudflare configuration;
+- still applies the mechanic, persistence, responsive, and accessibility guidance.
+
+## Case 9: Focused prototype
+
+Prompt:
+
+> Prototype only the playable loop for a daily higher-or-lower game. Use three hardcoded sample rounds. Skip accounts, analytics, SEO pages, launch assets, and deployment.
+
+Expected:
+
+- implements and tests the requested playable slice;
+- does not expand the task into a production launch;
+- does not create accounts, analytics, SEO routes, launch artwork, or deployment configuration.
+
+## Case 10: Production launch readiness
+
+Prompt:
+
+> Prepare this finished daily clue game for a production launch. Fix release blockers and give me a final readiness report, but do not deploy it.
+
+Expected:
+
+- applies the complete production launch checklist;
+- validates content coverage, reset behavior, accessibility, metadata, sharing, and build output;
+- preserves the no-deploy boundary;
+- reports any blocker that cannot be resolved locally.

@@ -1,0 +1,35 @@
+{
+  "name": "dle-game-builder",
+  "version": "1.0.0",
+  "description": "Build and audit polished mobile-first daily browser puzzle games.",
+  "author": {
+    "name": "Jsiwa",
+    "url": "https://github.com/jsiwa"
+  },
+  "homepage": "https://github.com/jsiwa/dle-game-builder#readme",
+  "repository": "https://github.com/jsiwa/dle-game-builder",
+  "license": "MIT",
+  "keywords": [
+    "daily-game",
+    "browser-game",
+    "puzzle",
+    "dle"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "DLE Game Builder",
+    "shortDescription": "Build and audit daily browser puzzle games.",
+    "longDescription": "Design, implement, redesign, and audit polished mobile-first daily browser puzzle games with reliable state, content, accessibility, sharing, and launch workflows.",
+    "developerName": "Jsiwa",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "brandColor": "#7C83FF",
+    "defaultPrompt": [
+      "Build a polished mobile-first daily puzzle game.",
+      "Audit this daily game and fix the highest-impact issues."
+    ]
+  }
+}

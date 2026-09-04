@@ -111,7 +111,13 @@ AI may draft clues, distractors, explanations, or tags, but do not publish factu
 Use the bundled baseline validator:
 
 ```bash
-node scripts/validate-puzzles.mjs assets/example-puzzles.json
+node "<skill-directory>/scripts/validate-puzzles.mjs" path/to/puzzles.json
 ```
 
-Extend it with mechanic-specific checks and run it in CI. Treat warnings about duplicate dates, invalid solutions, missing alt text, or answer leakage as release blockers when relevant.
+For launch-readiness checks, include the backlog rule and fail on warnings:
+
+```bash
+node "<skill-directory>/scripts/validate-puzzles.mjs" --launch --strict path/to/puzzles.json
+```
+
+Extend the baseline with project-specific mechanic checks and run it in CI. Treat duplicate dates, invalid solutions, missing alt text, and answer leakage as release blockers when relevant.

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.com/schemas/dle-puzzle.schema.json",
+  "$id": "https://raw.githubusercontent.com/jsiwa/dle-game-builder/main/plugins/dle-game-builder/skills/dle-game-builder/assets/puzzle.schema.json",
   "title": "DLE Puzzle Collection",
   "type": "object",
   "required": ["gameId", "resetTimeZone", "puzzles"],
@@ -28,7 +28,17 @@
   "$defs": {
     "puzzle": {
       "type": "object",
-      "required": ["id", "date", "kind", "title", "status"],
+      "required": [
+        "id",
+        "date",
+        "kind",
+        "title",
+        "prompt",
+        "difficulty",
+        "status",
+        "source",
+        "reviewer"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -59,14 +69,20 @@
           "minLength": 1
         },
         "prompt": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         },
         "answer": {
-          "type": ["string", "number", "object", "array"]
+          "anyOf": [
+            { "type": "string", "minLength": 1 },
+            { "type": "number" },
+            { "type": "object" },
+            { "type": "array" }
+          ]
         },
         "aliases": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": { "type": "string", "minLength": 1 },
           "uniqueItems": true
         },
         "clues": {
@@ -77,13 +93,13 @@
           "type": "array",
           "items": {
             "oneOf": [
-              { "type": "string" },
+              { "type": "string", "minLength": 1 },
               {
                 "type": "object",
                 "required": ["id", "label"],
                 "properties": {
-                  "id": { "type": "string" },
-                  "label": { "type": "string" },
+                  "id": { "type": "string", "minLength": 1 },
+                  "label": { "type": "string", "minLength": 1 },
                   "alt": { "type": "string" }
                 },
                 "additionalProperties": true
@@ -120,13 +136,34 @@
         "source": {
           "type": "object",
           "properties": {
-            "url": { "type": "string" },
-            "license": { "type": "string" },
-            "notes": { "type": "string" }
+            "url": { "type": "string", "format": "uri" },
+            "license": { "type": "string", "minLength": 1 },
+            "notes": { "type": "string", "minLength": 1 }
           },
+          "anyOf": [
+            {
+              "required": ["url"],
+              "properties": { "url": { "type": "string", "format": "uri" } }
+            },
+            {
+              "required": ["license"],
+              "properties": { "license": { "type": "string", "minLength": 1 } }
+            },
+            {
+              "required": ["notes"],
+              "properties": { "notes": { "type": "string", "minLength": 1 } }
+            }
+          ],
           "additionalProperties": true
         },
         "editorialNotes": {
+          "type": "string"
+        },
+        "reviewer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "normalizationNotes": {
           "type": "string"
         },
         "allowAnswerInPrompt": {
@@ -134,6 +171,46 @@
           "default": false
         }
       },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "kind": { "const": "clue-ladder" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "required": ["answer", "clues"],
+            "properties": {
+              "answer": { "type": "string", "minLength": 1 },
+              "clues": { "type": "array", "minItems": 2 }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "kind": { "const": "ordering" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "required": ["items", "solution"],
+            "properties": {
+              "items": { "type": "array", "minItems": 2, "uniqueItems": true },
+              "solution": { "type": "array", "minItems": 2, "uniqueItems": true }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "kind": { "const": "progressive-reveal" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "required": ["answer", "media"],
+            "properties": {
+              "media": { "type": "array", "minItems": 2 }
+            }
+          }
+        }
+      ],
       "additionalProperties": true
     }
   }

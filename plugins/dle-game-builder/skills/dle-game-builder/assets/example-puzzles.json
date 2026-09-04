@@ -20,6 +20,7 @@
       ],
       "difficulty": 2,
       "status": "approved",
+      "reviewer": "DLE Game Builder contributors",
       "source": {
         "license": "Original",
         "notes": "Demonstration content only"
@@ -35,6 +36,7 @@
       "solution": ["Pine Gate", "Cedar Square", "Moon Bridge", "Harbor End"],
       "difficulty": 1,
       "status": "approved",
+      "reviewer": "DLE Game Builder contributors",
       "source": {
         "license": "Original",
         "notes": "Fictional demonstration data"
