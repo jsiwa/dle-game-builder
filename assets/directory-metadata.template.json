@@ -1,0 +1,23 @@
+{
+  "name": "",
+  "slug": "",
+  "url": "https://",
+  "category": "",
+  "tags": [],
+  "language": "English",
+  "summary": "",
+  "description": "",
+  "daily": true,
+  "resetTimeZone": "UTC",
+  "price": "Free",
+  "signupRequired": false,
+  "iframeAllowed": null,
+  "practiceMode": false,
+  "archiveAvailable": false,
+  "estimatedSessionMinutes": 3,
+  "logoSquare": "",
+  "ogImage": "",
+  "gameplayScreenshot": "",
+  "howToPlay": [],
+  "shareExample": ""
+}

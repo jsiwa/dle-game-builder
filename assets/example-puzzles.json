@@ -1,0 +1,44 @@
+{
+  "gameId": "example-dle",
+  "resetTimeZone": "UTC",
+  "schemaVersion": 1,
+  "puzzles": [
+    {
+      "id": "example-clue-001",
+      "date": "2026-09-05",
+      "kind": "clue-ladder",
+      "title": "One answer, five clues",
+      "prompt": "Guess the everyday word as early as possible.",
+      "answer": "shadow",
+      "aliases": ["a shadow"],
+      "clues": [
+        "I copy without touching.",
+        "I become long when the sun is low.",
+        "Clouds can make me disappear.",
+        "I follow an object blocking light.",
+        "A dark shape cast by light."
+      ],
+      "difficulty": 2,
+      "status": "approved",
+      "source": {
+        "license": "Original",
+        "notes": "Demonstration content only"
+      }
+    },
+    {
+      "id": "example-order-001",
+      "date": "2026-09-06",
+      "kind": "ordering",
+      "title": "Order the fictional stations",
+      "prompt": "Sort the stations from first to last on the route.",
+      "items": ["Pine Gate", "Harbor End", "Cedar Square", "Moon Bridge"],
+      "solution": ["Pine Gate", "Cedar Square", "Moon Bridge", "Harbor End"],
+      "difficulty": 1,
+      "status": "approved",
+      "source": {
+        "license": "Original",
+        "notes": "Fictional demonstration data"
+      }
+    }
+  ]
+}
